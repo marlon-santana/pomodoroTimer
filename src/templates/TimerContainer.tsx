@@ -10,7 +10,7 @@ export function TimerContainer({ children }: Props) {
       sx={{
         height: "744px",
         width: "1120px",
-        margin: " 80px 160px",
+        margin: "160px auto",
         backgroundColor: "#202024",
       }}
     >

@@ -6,7 +6,7 @@ import { TemplateHeader } from "./templates/TemplateHeader";
 export function Router() {
   return (
     <Routes>
-      <Route path="" element={<TemplateHeader />}>
+      <Route path="/" element={<TemplateHeader />}>
         <Route path="/" element={<Home />} />
         <Route path="/History" element={<History />} />
       </Route>
