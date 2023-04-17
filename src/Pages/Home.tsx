@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Button, Stack, Input, Card, Typography } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { CardCount } from "../components/Count";
 
 export function Home() {
+  const [task, setTask] = useState("");
   return (
     <Stack
       sx={{
@@ -37,6 +39,7 @@ export function Home() {
             }}
             placeholder=" Nome do seu projeto"
             id="task"
+            onChange={(e) => setTask(e.target.value)}
           />
 
           <label
@@ -115,12 +118,14 @@ export function Home() {
             color: "white",
             mt: "700px,",
           }}
+          disabled={!task}
         >
           <PlayArrowOutlinedIcon
             style={{
               width: "54px",
               height: "54px",
               color: "white",
+              opacity: task ? 1 : 0.2,
             }}
           />
           começar
