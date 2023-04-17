@@ -26,6 +26,7 @@ export function Home() {
           >
             Vou trabalhar em
           </label>
+
           <Input
             sx={{
               color: "white",
@@ -58,6 +59,7 @@ export function Home() {
                 height: "24px",
                 padding: 0,
                 fontSize: "24px",
+                color: "#00875F",
               }}
             >
               +
@@ -74,7 +76,14 @@ export function Home() {
               id="minutesAmount"
               placeholder="00"
             />
-            <Button style={{ height: "24px", padding: 0, fontSize: "24px" }}>
+            <Button
+              style={{
+                height: "24px",
+                padding: 0,
+                fontSize: "30px",
+                color: "#00875F",
+              }}
+            >
               -
             </Button>
           </Stack>
