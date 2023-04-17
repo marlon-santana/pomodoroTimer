@@ -30,7 +30,7 @@ export function Header() {
             width: "38px",
             height: "38px",
             color: "white",
-            padding: "2px",
+            padding: "4px",
             borderBottom: "3px solid transparent",
             "&:hover": {
               borderBottom: "3px solid  #00875F",
@@ -42,10 +42,10 @@ export function Header() {
       <NavLink to="History" title="histórico">
         <ReceiptLongIcon
           sx={{
-            width: "35px",
-            height: "35px",
+            width: "40px",
+            height: "40px",
             color: "white",
-            padding: "2px",
+            padding: "5px",
             borderBottom: "3px solid transparent",
             "&:hover": {
               borderBottom: "3px solid  #00875F",

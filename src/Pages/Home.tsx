@@ -27,7 +27,13 @@ export function Home() {
             Vou trabalhar em
           </label>
           <Input
-            sx={{ color: "white", padding: "10px" }}
+            sx={{
+              color: "white",
+              padding: "10px",
+              "&.MuiInput-root:after": {
+                borderBottom: "2px solid #00875F",
+              },
+            }}
             placeholder=" Nome do seu projeto"
             id="task"
           />
@@ -52,13 +58,19 @@ export function Home() {
                 height: "24px",
                 padding: 0,
                 fontSize: "24px",
-                "&:hover": {},
               }}
             >
               +
             </Button>
             <Input
-              style={{ width: "40px", color: "white", padding: "10px" }}
+              sx={{
+                width: "40px",
+                color: "white",
+                padding: "10px",
+                "&.MuiInput-root:after": {
+                  borderBottom: "2px solid #00875F",
+                },
+              }}
               id="minutesAmount"
               placeholder="00"
             />
