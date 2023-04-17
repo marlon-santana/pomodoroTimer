@@ -8,9 +8,10 @@ export function TimerContainer({ children }: Props) {
   return (
     <Stack
       sx={{
-        height: "744px",
+        height: "600px",
         width: "1120px",
-        margin: "160px auto",
+        margin: "0 auto",
+        mt: "80px",
         backgroundColor: "#202024",
       }}
     >

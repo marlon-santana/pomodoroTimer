@@ -1,14 +1,30 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography, Card } from "@mui/material";
 
-export function Count() {
+export function CardCount() {
   return (
-    <Stack
-      sx={{
-        width: "656px",
-        height: "424px",
-        border: "2px solid white",
-        margin: "142px 221px 157px",
-      }}
-    ></Stack>
+    <Stack>
+      <Card
+        sx={{
+          backgroundColor: "#29292E",
+          width: "128px",
+          height: "198px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: " center",
+          mb: "57px",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "128px",
+            color: "white",
+            fontWeight: 600,
+            fontFamily: "Roboto ",
+          }}
+        >
+          0
+        </Typography>
+      </Card>
+    </Stack>
   );
 }
