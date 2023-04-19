@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
-import Badge from "@mui/material/Badge";
 
 function createData(
   Tarefa: string,
@@ -49,14 +48,24 @@ export function History() {
           }}
         >
           <TableRow>
-            <TableCell sx={{ color: "white" }}>Tarefa</TableCell>
+            <TableCell
+              sx={{
+                color: "white",
+                borderTopLeftRadius: "10px",
+              }}
+            >
+              Tarefa
+            </TableCell>
             <TableCell sx={{ color: "white" }} align="right">
               Duração
             </TableCell>
             <TableCell sx={{ color: "white" }} align="right">
               Início
             </TableCell>
-            <TableCell sx={{ color: "white" }} align="right">
+            <TableCell
+              sx={{ color: "white", borderTopRightRadius: "10px" }}
+              align="right"
+            >
               Status
             </TableCell>
           </TableRow>
@@ -80,7 +89,7 @@ export function History() {
               <TableCell sx={{ color: "white" }} align="right">
                 {row.Início}
               </TableCell>
-              <TableCell sx={{ color: "white" }} align="right">
+              <TableCell sx={{ color: "green" }} align="right">
                 {row.Status}
               </TableCell>
             </TableRow>

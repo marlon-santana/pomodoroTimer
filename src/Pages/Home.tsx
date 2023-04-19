@@ -2,9 +2,17 @@ import { useState } from "react";
 import { Button, Stack, Input, Card, Typography } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { CardCount } from "../components/Count";
+import { useForm } from "react-hook-form";
 
 export function Home() {
-  const [task, setTask] = useState("");
+  const { register, handleSubmit, watch } = useForm();
+
+  function handleSubmitNew(data: any) {
+    console.log(data);
+  }
+  const task = watch("task");
+  const isSubmitDesabled = !task;
+
   return (
     <Stack
       sx={{
@@ -13,7 +21,7 @@ export function Home() {
         mt: "20px",
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit(handleSubmitNew)}>
         <Stack
           sx={{
             display: "flex",
@@ -39,7 +47,7 @@ export function Home() {
             }}
             placeholder=" Nome do seu projeto"
             id="task"
-            onChange={(e) => setTask(e.target.value)}
+            {...register("task")}
           />
 
           <label
@@ -78,6 +86,7 @@ export function Home() {
               }}
               id="minutesAmount"
               placeholder="00"
+              {...register("minutesAmount", { valueAsNumber: true })}
             />
             <Button
               style={{
@@ -118,7 +127,7 @@ export function Home() {
             color: "white",
             mt: "700px,",
           }}
-          disabled={!task}
+          disabled={isSubmitDesabled}
         >
           <PlayArrowOutlinedIcon
             style={{
