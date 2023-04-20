@@ -6,11 +6,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
-export function Home() {
-  const { register, handleSubmit, watch } = useForm();
+interface taskProps {
+  task: string;
+  minutesAmount: number;
+}
 
-  function handleSubmitNew(data: any) {
+export function Home() {
+  const { register, handleSubmit, watch, reset } = useForm<taskProps>();
+
+  function handleSubmitNew(data: taskProps) {
     console.log(data);
+    reset();
   }
   const task = watch("task");
   const isSubmitDesabled = !task;
