@@ -3,6 +3,8 @@ import { Button, Stack, Input, Card, Typography } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { CardCount } from "../components/Count";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
 
 export function Home() {
   const { register, handleSubmit, watch } = useForm();
@@ -77,7 +79,7 @@ export function Home() {
             </Button>
             <Input
               sx={{
-                width: "40px",
+                width: "80px",
                 color: "white",
                 padding: "10px",
                 "&.MuiInput-root:after": {
@@ -85,6 +87,7 @@ export function Home() {
                 },
               }}
               id="minutesAmount"
+              inputProps={{ max: 60 }}
               placeholder="00"
               {...register("minutesAmount", { valueAsNumber: true })}
             />
