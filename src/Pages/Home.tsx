@@ -5,19 +5,41 @@ import { CardCount } from "../components/Count";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
+import { ZodStringDef } from "zod";
 
 interface taskProps {
   task: string;
   minutesAmount: number;
 }
 
+interface cycleProps {
+  id: string;
+  task: string;
+  minutesAmount: number;
+}
+
 export function Home() {
   const { register, handleSubmit, watch, reset } = useForm<taskProps>();
+  const [cycle, setCycle] = useState<cycleProps[]>([]);
+  const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
 
-  function handleSubmitNew(data: taskProps) {
-    console.log(data);
+  function handleSubmitNewCycle(data: taskProps) {
+    const id = String(new Date().getTime());
+
+    const newCycle: cycleProps = {
+      id,
+      task: data.task,
+      minutesAmount: data.minutesAmount,
+    };
+
+    setCycle((state) => [...state, newCycle]); // pgando toda lista de ciclos antigos e adicionando o novo ciclo
+    setActiveCycleId(newCycle.id);
+
     reset();
   }
+
+  const activeCycle = cycle.find((cycle) => cycle.id === activeCycleId);
+
   const task = watch("task");
   const isSubmitDesabled = !task;
 
@@ -29,7 +51,7 @@ export function Home() {
         mt: "20px",
       }}
     >
-      <form onSubmit={handleSubmit(handleSubmitNew)}>
+      <form onSubmit={handleSubmit(handleSubmitNewCycle)}>
         <Stack
           sx={{
             display: "flex",
