@@ -5,7 +5,6 @@ import { CardCount } from "../components/Count";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { ZodStringDef } from "zod";
 
 interface taskProps {
   task: string;
@@ -22,6 +21,7 @@ export function Home() {
   const { register, handleSubmit, watch, reset } = useForm<taskProps>();
   const [cycle, setCycle] = useState<cycleProps[]>([]);
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
+  const [amountSeconsPassed, setAmountSeconsPassed] = useState(0);
 
   function handleSubmitNewCycle(data: taskProps) {
     const id = String(new Date().getTime());
@@ -39,6 +39,21 @@ export function Home() {
   }
 
   const activeCycle = cycle.find((cycle) => cycle.id === activeCycleId);
+
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0; // converte total de minutos em segundos
+  const currentSeconds = activeCycle ? totalSeconds - amountSeconsPassed : 0; // segundo atual, total de segundos menos o que já passou
+
+  const minutesAmount = Math.floor(currentSeconds / 60);
+  const secondsAmount = currentSeconds % 60;
+
+  const minutes = String(minutesAmount).padStart(2, "0");
+  const seconds = String(secondsAmount).padStart(2, "0");
+
+  console.log("minutes[0]", minutes);
+  console.log("minutes[1]", minutes);
+  console.log("seconds[0]", seconds[0]);
+  console.log("seconds[1]", seconds[1]);
+  console.log("minutesAmount", minutesAmount);
 
   const task = watch("task");
   const isSubmitDesabled = !task;
@@ -141,13 +156,13 @@ export function Home() {
             flexDirection: "row",
           }}
         >
-          <CardCount />
-          <CardCount />
+          <CardCount value={minutes[0]} />
+          <CardCount value={minutes[1]} />
           <Typography sx={{ fontSize: "128px", color: "white", mb: "50px" }}>
             :
           </Typography>
-          <CardCount />
-          <CardCount />
+          <CardCount value={seconds[0]} />
+          <CardCount value={seconds[1]} />
         </Stack>
         <Button
           type="submit"

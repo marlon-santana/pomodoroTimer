@@ -1,6 +1,6 @@
 import { Stack, Typography, Card } from "@mui/material";
 
-export function CardCount() {
+export function CardCount({ value }) {
   return (
     <Stack>
       <Card
@@ -22,7 +22,7 @@ export function CardCount() {
             fontFamily: "Roboto ",
           }}
         >
-          0
+          {value}
         </Typography>
       </Card>
     </Stack>
