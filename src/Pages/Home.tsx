@@ -70,12 +70,6 @@ export function Home() {
 
   const time = `${dataFormatada}T${novaHoraFormatada}:${segundos}`;
 
-  const [days, hours, minutes, seconds] = useCountdown(time);
-  console.log("string", time);
-  // console.log("minutes", minutos, minutes);
-  // console.log("hora", hours);
-  // console.log("minutoAtualCount", minutoAtualCount);
-
   const task = watch("task");
   const isSubmitDesabled = !task;
 
