@@ -49,11 +49,11 @@ export function Home() {
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
-  console.log("minutes[0]", minutes);
-  console.log("minutes[1]", minutes);
-  console.log("seconds[0]", seconds[0]);
-  console.log("seconds[1]", seconds[1]);
-  console.log("minutesAmount", minutesAmount);
+  // console.log("minutes[0]", minutes);
+  // console.log("minutes[1]", minutes);
+  // console.log("seconds[0]", seconds[0]);
+  // console.log("seconds[1]", seconds[1]);
+  // console.log("minutesAmount", minutesAmount);
 
   const task = watch("task");
   const isSubmitDesabled = !task;
