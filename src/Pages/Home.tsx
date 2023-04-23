@@ -3,6 +3,7 @@ import { Button, Stack, Input, Card, Typography } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { CardCount } from "../components/Count";
 import { useForm } from "react-hook-form";
+import { useCountdown } from "../../src/hooks/useCountdown";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
@@ -38,6 +39,16 @@ export function Home() {
     reset();
   }
 
+  const dataAtual = new Date();
+  const ano = dataAtual.getFullYear().toString();
+  const mes = ("0" + (dataAtual.getMonth() + 1)).slice(-2); // adiciona zero à esquerda se o mês for menor que 10
+  const dia = ("0" + dataAtual.getDate()).slice(-2); // adiciona zero à esquerda se o dia for menor que 10
+  const minutoAtual = dataAtual.getMinutes(); //.toString().slice(2);
+  const horaAtual = dataAtual.getHours();
+
+  const dataFormatada = `${ano}-${mes}-${dia}`;
+  // console.log(dataFormatada);
+
   const activeCycle = cycle.find((cycle) => cycle.id === activeCycleId);
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0; // converte total de minutos em segundos
@@ -46,14 +57,18 @@ export function Home() {
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
 
-  const minutes = String(minutesAmount).padStart(2, "0");
-  const seconds = String(secondsAmount).padStart(2, "0");
+  const minutos = String(minutesAmount).padStart(2, "0");
+  const segundos = String(secondsAmount).padStart(2, "0");
 
-  // console.log("minutes[0]", minutes);
-  // console.log("minutes[1]", minutes);
-  // console.log("seconds[0]", seconds[0]);
-  // console.log("seconds[1]", seconds[1]);
-  // console.log("minutesAmount", minutesAmount);
+  let novaHora = new Date();
+  novaHora.setHours(horaAtual);
+  novaHora.setSeconds(0);
+  novaHora.setMinutes(minutoAtual + minutesAmount);
+  let novaHoraFormatada =
+    novaHora.getHours() + ":" + String(novaHora.getMinutes()).padStart(2, "0");
+  // console.log(novaHoraFormatada);
+
+  const time = `${dataFormatada}T${novaHoraFormatada}:${segundos}`;
 
   const task = watch("task");
   const isSubmitDesabled = !task;
