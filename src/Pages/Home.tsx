@@ -55,7 +55,7 @@ export function Home() {
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
-  const zeroTimer = minutesAmount < 1 && secondsAmount < 1;
+
 
   useEffect(() => {
     let interval: number
@@ -67,10 +67,12 @@ export function Home() {
   return () => {
     clearInterval(interval)
   }
-  },[activeCycle,zeroTimer])
+  },[activeCycle])
 
-console.log(zeroTimer)
-
+useEffect(() => {
+  if(!activeCycle) return;
+  document.title = `${minutes}:${seconds}`
+},[activeCycle, minutes,seconds])
   
 
   const task = watch("task");
