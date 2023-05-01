@@ -41,6 +41,7 @@ export function Home() {
 
     setCycle((state) => [...state, newCycle]); // pegando toda lista de ciclos antigos e adicionando o novo ciclo
     setActiveCycleId(newCycle.id);
+    setAmountSeconsPassed(0);
 
     reset();
   }
@@ -57,10 +58,14 @@ export function Home() {
   const zeroTimer = minutesAmount < 1 && secondsAmount < 1;
 
   useEffect(() => {
+    let interval: number
     if(activeCycle){
-    setInterval(() => {
+    interval = setInterval(() => {
       setAmountSeconsPassed(differenceInSeconds(new Date(),activeCycle.startDate),)
     },1000)
+  }
+  return () => {
+    clearInterval(interval)
   }
   },[activeCycle,zeroTimer])
 
