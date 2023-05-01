@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Stack, Input, Card, Typography } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { CardCount } from "../components/Count";
 import { useForm } from "react-hook-form";
+import { differenceInSeconds } from "date-fns/fp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
@@ -15,13 +16,18 @@ interface cycleProps {
   id: string;
   task: string;
   minutesAmount: number;
-}
+  startDate: Date;
+  }
 
 export function Home() {
   const { register, handleSubmit, watch, reset } = useForm<taskProps>();
   const [cycle, setCycle] = useState<cycleProps[]>([]);
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
   const [amountSeconsPassed, setAmountSeconsPassed] = useState(0);
+
+
+
+  const activeCycle = cycle.find((cycle) => cycle.id === activeCycleId);
 
   function handleSubmitNewCycle(data: taskProps) {
     const id = String(new Date().getTime());
@@ -30,6 +36,7 @@ export function Home() {
       id,
       task: data.task,
       minutesAmount: data.minutesAmount,
+      startDate: new Date(),
     };
 
     setCycle((state) => [...state, newCycle]); // pegando toda lista de ciclos antigos e adicionando o novo ciclo
@@ -37,11 +44,9 @@ export function Home() {
 
     reset();
   }
-
-  const activeCycle = cycle.find((cycle) => cycle.id === activeCycleId);
-
+  
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0; // converte total de minutos em segundos
-  const currentSeconds = activeCycle ? totalSeconds - amountSeconsPassed : 0; // segundo atual, total de segundos menos o que já passou
+  const currentSeconds = activeCycle ? totalSeconds + amountSeconsPassed : 0; // segundo atual, total de segundos menos o que já passou
 
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
@@ -49,9 +54,23 @@ export function Home() {
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
+  const zeroTimer = minutesAmount < 1 && secondsAmount < 1;
+
+  useEffect(() => {
+    if(activeCycle){
+    setInterval(() => {
+      setAmountSeconsPassed(differenceInSeconds(new Date(),activeCycle.startDate),)
+    },1000)
+  }
+  },[activeCycle,zeroTimer])
+
+console.log(zeroTimer)
+
+  
+
   const task = watch("task");
   const isSubmitDesabled = !task;
-  //teste
+
 
   return (
     <Stack
