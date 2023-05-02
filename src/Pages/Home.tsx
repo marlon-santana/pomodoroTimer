@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Stack, Input, Card, Typography } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
+import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import { CardCount } from "../components/Count";
 import { useForm } from "react-hook-form";
 import { differenceInSeconds } from "date-fns/fp";
@@ -46,6 +47,23 @@ export function Home() {
     reset();
   }
   
+
+  function handleInteruptCycle () {
+    setCycle(
+      cycle.map((cycle) => {
+      if(cycle.id === activeCycleId) {
+        return {
+          ...cycle,cycleinterrupetedDate: new Date()} 
+      }else {
+        return cycle
+      }
+    
+    }))
+    setActiveCycleId(null)
+   
+  };
+
+
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0; // converte total de minutos em segundos
   const currentSeconds = activeCycle ? totalSeconds + amountSeconsPassed : 0; // segundo atual, total de segundos menos o que já passou
 
@@ -185,7 +203,34 @@ useEffect(() => {
           <CardCount value={seconds[0]} />
           <CardCount value={seconds[1]} />
         </Stack>
-        <Button
+
+        { activeCycleId ? (
+          <Button
+          onClick={handleInteruptCycle}
+          type="button"
+          sx={{
+            width: "100%",
+            height: "64px",
+            backgroundColor: "red",
+            color: "#fffff",
+            fontWeight: 700,
+            mt: "700px,",
+          }}
+          // disabled={isSubmitDesabled}
+        >
+          <DoDisturbOnIcon
+            style={{
+              width: "34px",
+              height: "34px",
+              color: "#ffffff",
+              marginRight:'5px',
+              opacity: 0.8,
+            }}
+          />
+          Interromper
+        </Button>
+        ) : (
+          <Button
           type="submit"
           sx={{
             width: "100%",
@@ -206,6 +251,7 @@ useEffect(() => {
           />
           começar
         </Button>
+        )}
       </form>
     </Stack>
   );
