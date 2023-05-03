@@ -18,7 +18,9 @@ interface cycleProps {
   task: string;
   minutesAmount: number;
   startDate: Date;
-  }
+  cycleinterrupetedDate?: Date;
+  finishedDate?: Date;
+}
 
 export function Home() {
   const { register, handleSubmit, watch, reset } = useForm<taskProps>();
@@ -46,25 +48,26 @@ export function Home() {
 
     reset();
   }
-  
 
-  function handleInteruptCycle () {
-    setCycle(
-      cycle.map((cycle) => {
-      if(cycle.id === activeCycleId) {
-        return {
-          ...cycle,cycleinterrupetedDate: new Date()} 
-      }else {
-        return cycle
-      }
-    
-    }))
+
+  function handleInteruptCycle() {
+    setCycle(prop =>
+      prop.map((cycle) => {
+        if (cycle.id === activeCycleId) {
+          return {
+            ...cycle, cycleinterrupetedDate: new Date()
+          }
+        } else {
+          return cycle
+        }
+
+      }))
     setActiveCycleId(null)
-   
+
   };
 
 
-  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0; // converte total de minutos em segundos
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
   const currentSeconds = activeCycle ? totalSeconds + amountSeconsPassed : 0; // segundo atual, total de segundos menos o que já passou
 
   const minutesAmount = Math.floor(currentSeconds / 60);
@@ -77,21 +80,43 @@ export function Home() {
 
   useEffect(() => {
     let interval: number
-    if(activeCycle){
-    interval = setInterval(() => {
-      setAmountSeconsPassed(differenceInSeconds(new Date(),activeCycle.startDate),)
-    },1000)
-  }
-  return () => {
-    clearInterval(interval)
-  }
-  },[activeCycle])
+    if (activeCycle) {
+      interval = setInterval(() => {
+        const diferenceSeconds = differenceInSeconds(new Date(), activeCycle.startDate)
 
-useEffect(() => {
-  if(!activeCycle) return;
-  document.title = `${minutes}:${seconds}`
-},[activeCycle, minutes,seconds])
-  
+        if(diferenceSeconds > totalSeconds) {
+          setCycle((state) =>
+            state.map((cycle) => {
+              if (cycle.id === activeCycleId) {
+                return {
+                  ...cycle, finishedDate: new Date()
+                }
+              } else {
+                return cycle
+              }
+            }
+            ))
+            setAmountSeconsPassed(0)
+            clearInterval(interval)
+        }else {
+          setAmountSeconsPassed(diferenceSeconds)
+        }
+
+      }, 1000)
+    }
+    return () => {
+      clearInterval(interval)
+    }
+  }, [activeCycle, totalSeconds, activeCycleId])
+
+
+
+
+  useEffect(() => {
+    if (!activeCycle) return;
+    document.title = `${minutes}:${seconds}`
+  }, [activeCycle, minutes, seconds])
+
 
   const task = watch("task");
   const isSubmitDesabled = !task;
@@ -204,53 +229,53 @@ useEffect(() => {
           <CardCount value={seconds[1]} />
         </Stack>
 
-        { activeCycleId ? (
+        {activeCycleId ? (
           <Button
-          onClick={handleInteruptCycle}
-          type="button"
-          sx={{
-            width: "100%",
-            height: "64px",
-            backgroundColor: "red",
-            color: "#fffff",
-            fontWeight: 700,
-            mt: "700px,",
-          }}
-          // disabled={isSubmitDesabled}
-        >
-          <DoDisturbOnIcon
-            style={{
-              width: "34px",
-              height: "34px",
-              color: "#ffffff",
-              marginRight:'5px',
-              opacity: 0.8,
+            onClick={handleInteruptCycle}
+            type="button"
+            sx={{
+              width: "100%",
+              height: "64px",
+              backgroundColor: "red",
+              color: "#fffff",
+              fontWeight: 700,
+              mt: "700px,",
             }}
-          />
-          Interromper
-        </Button>
+          // disabled={isSubmitDesabled}
+          >
+            <DoDisturbOnIcon
+              style={{
+                width: "34px",
+                height: "34px",
+                color: "#ffffff",
+                marginRight: '5px',
+                opacity: 0.8,
+              }}
+            />
+            Interromper
+          </Button>
         ) : (
           <Button
-          type="submit"
-          sx={{
-            width: "100%",
-            height: "64px",
-            backgroundColor: "#00875F",
-            color: "white",
-            mt: "700px,",
-          }}
-          disabled={isSubmitDesabled}
-        >
-          <PlayArrowOutlinedIcon
-            style={{
-              width: "54px",
-              height: "54px",
+            type="submit"
+            sx={{
+              width: "100%",
+              height: "64px",
+              backgroundColor: "#00875F",
               color: "white",
-              opacity: task ? 1 : 0.2,
+              mt: "700px,",
             }}
-          />
-          começar
-        </Button>
+            disabled={isSubmitDesabled}
+          >
+            <PlayArrowOutlinedIcon
+              style={{
+                width: "54px",
+                height: "54px",
+                color: "white",
+                opacity: task ? 1 : 0.2,
+              }}
+            />
+            começar
+          </Button>
         )}
       </form>
     </Stack>
