@@ -76,13 +76,19 @@ export function Home() {
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
-
+const stopTimer = (interval) => {
+  setAmountSeconsPassed(0)
+  clearInterval(interval);
+}
 
   useEffect(() => {
     let interval: number
     if (activeCycle) {
       interval = setInterval(() => {
         const diferenceSeconds = differenceInSeconds(new Date(), activeCycle.startDate)
+
+        if(Math.abs(diferenceSeconds) === totalSeconds) stopTimer(interval);
+       
 
         if(diferenceSeconds > totalSeconds) {
           setCycle((state) =>
@@ -96,8 +102,7 @@ export function Home() {
               }
             }
             ))
-            setAmountSeconsPassed(0)
-            clearInterval(interval)
+            stopTimer(interval);
         }else {
           setAmountSeconsPassed(diferenceSeconds)
         }
@@ -116,7 +121,6 @@ export function Home() {
     if (!activeCycle) return;
     document.title = `${minutes}:${seconds}`
   }, [activeCycle, minutes, seconds])
-
 
   const task = watch("task");
   const isSubmitDesabled = !task;
